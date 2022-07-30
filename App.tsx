@@ -1,20 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
+import FlashMessage from 'react-native-flash-message';
+import Root from './src/navigation/Root';
+
+import store from './src/store';
 
 const App = () => {
   return (
-    <View style={styles.screen}>
-      <Text>Hello world</Text>
-    </View>
+    <Provider store={store}>
+      <Root />
+      <FlashMessage position="top" color="red" titleStyle={{ fontSize: 14 }} />
+    </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default App;
