@@ -25,7 +25,13 @@ const TimeListScreen = memo(() => {
       {!data || data.length === 0 ? (
         <Text style={styles.defaultText}>Oops... Failed to load data</Text>
       ) : (
-        <FlatList data={data.list} keyExtractor={item => item.dt} renderItem={renderItem} />
+        <FlatList
+          style={styles.list}
+          data={data.list}
+          keyExtractor={item => item.dt}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+        />
       )}
     </LinearGradient>
   );

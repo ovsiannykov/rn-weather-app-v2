@@ -1,8 +1,11 @@
 import { StyleSheet } from 'react-native';
+import { hasNotch } from 'react-native-device-info';
+
+const IS_NOTH = hasNotch();
 
 export default StyleSheet.create({
   container: {
-    paddingTop: 60,
+    paddingTop: IS_NOTH ? 60 : 35,
     minHeight: '100%',
     paddingHorizontal: 10,
   },
@@ -40,7 +43,7 @@ export default StyleSheet.create({
   city: {
     color: '#E9F4ED',
     fontSize: 22,
-    marginTop: 20,
+    marginTop: 0,
     fontWeight: '200',
     shadowColor: '#000000',
     shadowOffset: {
@@ -66,5 +69,9 @@ export default StyleSheet.create({
   },
   listBox: {
     marginTop: 20,
+  },
+  list: {
+    marginBottom: 510,
+    paddingBottom: 50,
   },
 });

@@ -5,12 +5,13 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import TimeItem from '../../components/TimeItem/TimeItem';
 import styles from './DetailScreen.styles';
+import BackIcon from '../../assets/icons/back.svg';
 
 const DetailScreen = memo(() => {
   const navigation = useNavigation();
   const route = useRoute();
-  const thisDate: string = route.params.date.split(' ')[0];
-  const data = route.params.data.filter(item => item.dt_txt.split(' ')[0] === thisDate);
+  const thisDate: string = route?.params?.date.split(' ')[0];
+  const data = route?.params?.data.filter(item => item.dt_txt.split(' ')[0] === thisDate);
 
   const renderItem = ({ item }: any) => (
     <TimeItem
@@ -24,7 +25,8 @@ const DetailScreen = memo(() => {
   return (
     <LinearGradient colors={['#395F99', '#28436B']} style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.back}>←</Text>
+        <BackIcon width={44} height={44} stroke="white" />
+        {/* <Text style={styles.back}>←</Text> */}
       </TouchableOpacity>
       <View style={styles.infoContainer}>
         <Text style={styles.city}>{route.params.city.name}</Text>
@@ -37,7 +39,7 @@ const DetailScreen = memo(() => {
           data={data}
           keyExtractor={item => item.dt}
           renderItem={renderItem}
-          style={{ marginBottom: 510, paddingBottom: 100 }}
+          style={styles.list}
         />
       </View>
     </LinearGradient>

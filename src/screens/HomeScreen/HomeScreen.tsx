@@ -12,7 +12,7 @@ import styles from './HomeScreen.styles';
 
 /*
   ----------------------------------------
-  If api not wroking, i saved sample data:
+  If api not working, use sample data:
   ----------------------------------------
 
   1. import {defaultData} from '../../constants/data';
@@ -61,41 +61,43 @@ const HomeScreen = memo(() => {
   );
 
   return (
-    <LinearGradient colors={['#395F99', '#28436B']} style={styles.container}>
+    <LinearGradient colors={['#395F99', '#28436B']} style={styles.screen}>
       <ScrollView
         style={styles.scroll}
         showsVerticalScrollIndicator={false}
         // refreshControl={<RefreshControl refreshing={fetching} onRefresh={fetchingData} />}
       >
-        <View style={styles.wrapper}>
-          {fetching ? (
-            <View style={styles.loadingBox}>
-              <ActivityIndicator size="large" color="white" />
-            </View>
-          ) : null}
-          <Text style={styles.wellcomeSubTitle}>Wellcome to</Text>
-          <Text style={styles.wellcomeTitle}>WeatcherApp</Text>
-          <SelectCity
-            city={data?.city?.name}
-            country={data?.city?.country}
-            temp={data && data.list ? data.list[0].main.temp - 273.15 : null}
-            icon={data && data.list ? data.list[0].weather[0].icon : null}
-            desc={data && data.list ? data.list[0].weather[0].description : null}
-          />
-        </View>
-        <View style={styles.listBox}>
-          <Text style={styles.weekTitle}>This{'  '}Week</Text>
-          {data.list ? (
-            <FlatList
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              data={
-                data ? data.list.filter(item => item.dt_txt.split(' ')[1] === '15:00:00') : null
-              }
-              keyExtractor={item => item.dt}
-              renderItem={renderItem}
+        <View style={styles.container}>
+          <View style={styles.wrapper}>
+            {fetching ? (
+              <View style={styles.loadingBox}>
+                <ActivityIndicator size="large" color="white" />
+              </View>
+            ) : null}
+            <Text style={styles.wellcomeSubTitle}>Wellcome to</Text>
+            <Text style={styles.wellcomeTitle}>WeatcherApp</Text>
+            <SelectCity
+              city={data?.city?.name}
+              country={data?.city?.country}
+              temp={data.list[0].main.temp - 273.15}
+              icon={data.list[0].weather[0].icon}
+              desc={data.list[0].weather[0].description}
             />
-          ) : null}
+          </View>
+          <View style={styles.listBox}>
+            <Text style={styles.weekTitle}>This{'  '}Week</Text>
+            {data.list ? (
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={
+                  data ? data.list.filter(item => item.dt_txt.split(' ')[1] === '15:00:00') : null
+                }
+                keyExtractor={item => item.dt}
+                renderItem={renderItem}
+              />
+            ) : null}
+          </View>
         </View>
       </ScrollView>
     </LinearGradient>
