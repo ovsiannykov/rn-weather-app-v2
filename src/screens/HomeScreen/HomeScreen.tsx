@@ -1,13 +1,12 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, memo, useCallback } from 'react';
 import { View, ActivityIndicator, FlatList, Text, ScrollView, RefreshControl } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
 import SelectCity from '../../components/SelectCity/SelectCity';
-//import { setDataFetching } from '../../store/weatcher/weatcher-actions';
+import { setDataFetching } from '../../store/weatcher/weatcher-actions';
 import CalendarDate from '../../components/CalendarDate/CalendarDate';
-import { defaultData } from '../../constants/data';
 import styles from './HomeScreen.styles';
 
 /*
@@ -23,25 +22,21 @@ import styles from './HomeScreen.styles';
   */
 
 const HomeScreen = memo(() => {
-  const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
-  //const data = useSelector(state => state.wetcher);
-  const data = defaultData;
+  const data = useSelector(state => state.wetcher);
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  /*
-  const fetchingData = async () => {
+  const fetchingData = useCallback(async () => {
     setFetching(true);
     await dispatch(setDataFetching());
     setFetching(false);
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     fetchingData();
-  }, []);
-*/
+  }, [fetchingData]);
 
   const renderItem = ({ item }: any) => (
     <CalendarDate
@@ -65,7 +60,7 @@ const HomeScreen = memo(() => {
       <ScrollView
         style={styles.scroll}
         showsVerticalScrollIndicator={false}
-        // refreshControl={<RefreshControl refreshing={fetching} onRefresh={fetchingData} />}
+        refreshControl={<RefreshControl refreshing={fetching} onRefresh={fetchingData} />}
       >
         <View style={styles.container}>
           <View style={styles.wrapper}>
@@ -79,24 +74,20 @@ const HomeScreen = memo(() => {
             <SelectCity
               city={data?.city?.name}
               country={data?.city?.country}
-              temp={data.list[0].main.temp - 273.15}
-              icon={data.list[0].weather[0].icon}
-              desc={data.list[0].weather[0].description}
+              temp={data && data.list ? data.list[0].main.temp - 273.15 : null}
+              icon={data && data.list ? data.list[0].weather[0].icon : null}
+              desc={data && data.list ? data.list[0].weather[0].description : null}
             />
           </View>
           <View style={styles.listBox}>
             <Text style={styles.weekTitle}>This{'  '}Week</Text>
-            {data.list ? (
-              <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={
-                  data ? data.list.filter(item => item.dt_txt.split(' ')[1] === '15:00:00') : null
-                }
-                keyExtractor={item => item.dt}
-                renderItem={renderItem}
-              />
-            ) : null}
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={data?.list?.filter(item => item.dt_txt.split(' ')[1] === '15:00:00')}
+              keyExtractor={item => item.dt}
+              renderItem={renderItem}
+            />
           </View>
         </View>
       </ScrollView>

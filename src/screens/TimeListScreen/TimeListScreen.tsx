@@ -4,12 +4,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useSelector } from 'react-redux';
 
 import TimeItem from '../../components/TimeItem/TimeItem';
-import { defaultData } from '../../constants/data';
 import styles from './TimeListScreen.styles';
 
 const TimeListScreen = memo(() => {
-  //const data = useSelector(state => state.wetcher);
-  const data = defaultData;
+  const data = useSelector(state => state.wetcher);
 
   const renderItem = ({ item }: any) => (
     <TimeItem

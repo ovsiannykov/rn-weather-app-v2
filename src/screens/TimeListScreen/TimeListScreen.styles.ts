@@ -12,6 +12,7 @@ export default StyleSheet.create({
     paddingTop: IS_NOTH ? 60 : 35,
   },
   defaultText: {
+    paddingTop: 100,
     textAlign: 'center',
     fontSize: 22,
     color: '#E9F4ED',
